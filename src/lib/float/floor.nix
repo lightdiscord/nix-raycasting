@@ -1,9 +1,16 @@
 let
 
-  # Horrible until I find another way
-  fn = current: target:
-    if current + 1 < target then fn (current + 1) target
-    else if current + 1 == target then current + 1
-    else current;
+  floorNegative = x:
+    if x == 0 then 0
+    else if x > -1 then -1
+    else -1 + floor (x + 1);
 
-in fn 0
+  # Still horrible until I find another way
+  # Or if a new floor builtins appear.
+  floor = x:
+    if 0 <= x && x < 1 then 0
+    else if -1 < x && x < 0 then -1
+    else if x >= 1 then 1 + floor (x - 1)
+    else -1 + floor (x + 1);
+
+in floor

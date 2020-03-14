@@ -10,4 +10,7 @@ in asserts [
   ((floor 3) == 3)
   ((floor 0.1) == 0)
   ((floor 0) == 0)
+  ((floor (-0.1)) == -1)
+  ((floor (-3.14)) == -4)
+  ((floor (-10)) == -10)
 ]
