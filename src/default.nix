@@ -79,8 +79,8 @@ let
     drawStart = -lineHeight / 2 + screenHeight / 2;
     drawEnd = lineHeight / 2 + screenHeight / 2;
 
-  in genList (y: if drawStart <= y && y <= drawEnd then "@" else " ") screenHeight;
+  in { inherit drawStart drawEnd; };
 
   screen = rotateLeft (genList vertical screenWidth);
 
-in pkgs.writeText "mdr-${toString builtins.currentTime}" (concatStringsSep "\n" (map (concatStrings) (screen)))
+in (pkgs.callPackage ./writer/file.nix {}) (import ./drawer/bmp.nix)

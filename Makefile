@@ -5,4 +5,4 @@ tests:
 
 draw:
 	nix-build src/
-	cat result
+	display result
