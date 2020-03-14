@@ -1,10 +1,4 @@
 let
-
-  floorNegative = x:
-    if x == 0 then 0
-    else if x > -1 then -1
-    else -1 + floor (x + 1);
-
   # Still horrible until I find another way
   # Or if a new floor builtins appear.
   floor = x:
