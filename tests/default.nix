@@ -4,4 +4,6 @@ let
 
 in asserts [
   (import ./float)
+  (import ./number)
+  (import ./list)
 ]

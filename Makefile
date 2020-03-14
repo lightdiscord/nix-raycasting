@@ -1,5 +1,8 @@
-.PHONY: tests
+.PHONY: tests draw
 
 tests:
 	nix eval '(import ./tests)'
 
+draw:
+	nix-build src/
+	cat result
