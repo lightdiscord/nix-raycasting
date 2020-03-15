@@ -1,6 +1,6 @@
 let
 
-  asserts = import ./asserts.nix "tests";
+  asserts = import ./asserts.nix "root";
 
 in asserts [
   (import ./float)

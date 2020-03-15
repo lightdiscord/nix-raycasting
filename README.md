@@ -7,4 +7,4 @@ that would have made my life easier.
 * Writing numbers as hex (`0x42` instead of `66`)
 * Bitwise shift
 * Pow function
-* A modulo function
+* A remainder function
