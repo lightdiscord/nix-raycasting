@@ -7,6 +7,7 @@ let
   inherit (builtins) map genList length;
 
   rotateLeft = import ../lib/list/rotate-left.nix;
+  reverseList = import ../lib/list/reverse.nix;
 
   writeU16 = import ../lib/number/write-u16-le.nix;
   writeU32 = import ../lib/number/write-u32-le.nix;
@@ -29,13 +30,13 @@ let
     line = flatten columns;
     len = length line;
     rest = remainder len 4;
-  in line ++ (if rest == 0 then [] else (genList (_: 0) (4 - rest)));
+  in (if rest == 0 then [] else (genList (_: 0) (4 - rest))) ++ line;
 
   generateColumn = column:
     generatePixelColumn column;
 
   pixelArray = # 16
-    flatten (map padding (rotateLeft (map generateColumn screen.columns)));
+    flatten (map reverseList (map padding (rotateLeft (map generateColumn screen.columns))));
 
   res = 72 * 40;
 

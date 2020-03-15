@@ -16,9 +16,9 @@ let
   isWall = x: y: (tileAt x y) != 0;
 
   color = value:
-    if value == 1 then [120 0 0]
-    else if value == 2 then [0 120 0]
-    else if value == 3 then [0 0 120]
+    if value == 1 then [255 0 0]
+    else if value == 2 then [0 255 0]
+    else if value == 3 then [0 0 255]
     else if value == 4 then [255 255 255]
     else [255 255 0];
 
@@ -26,11 +26,11 @@ let
 
   div = a: b: if b != 0 then a / b else 9999999;
 
-  posX = 12;
-  posY = 5;
-  
-  dirX = -1;
-  dirY = 0;
+  posX = 11;
+  posY = 11;
+
+  dirX = 1;
+  dirY = 0.75;
 
   planeX = 0;
   planeY = 0.66;
@@ -57,12 +57,12 @@ let
       then (posY - mapY) * deltaDistY
       else (mapY + 1.0 - posY) * deltaDistY;
 
-    dda = { sideDistX, sideDistY, mapX, mapY }@args: let
+    dda = { sideDistX, sideDistY, mapX, mapY, ... }@args: let
       new_args = args // (if sideDistX < sideDistY
-        then { sideDistX = sideDistX + deltaDistX; mapX = mapX + stepX; }
-        else { sideDistY = sideDistY + deltaDistY; mapY = mapY + stepY; });
+        then { sideDistX = sideDistX + deltaDistX; mapX = mapX + stepX; side = false; }
+        else { sideDistY = sideDistY + deltaDistY; mapY = mapY + stepY; side = true; });
     in if isWall mapX mapY
-      then (args // { side = sideDistX >= sideDistY; })
+      then args
       else dda new_args;
 
     result = dda { inherit sideDistX sideDistY mapX mapY; };
@@ -71,7 +71,9 @@ let
       then (result.mapY - posY + (1 - stepY) / 2) / rayDirY
       else (result.mapX - posX + (1 - stepX) / 2) / rayDirX;
 
-    lineHeight = floor (screenHeight / perpWallDist);
+    lineHeight = if perpWallDist == 0
+      then screenHeight
+      else floor (screenHeight / perpWallDist);
 
     drawStart = -lineHeight / 2 + screenHeight / 2;
     drawEnd = lineHeight / 2 + screenHeight / 2;
@@ -79,7 +81,7 @@ let
   in {
     inherit (result) side;
     inherit drawStart drawEnd;
-    color = colorAt result.mapX result.mapY;
+    color = map (v: if result.side then floor (v / 1.5) else v) (colorAt result.mapX result.mapY);
   };
 
 in {
