@@ -4,4 +4,6 @@ let
 
 in asserts [
   (import ./abs.nix)
+  (import ./write-u32-le.nix)
+  (import ./write-u16-le.nix)
 ]
